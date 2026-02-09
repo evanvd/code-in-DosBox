@@ -1,0 +1,59 @@
+Turbo Assembler	 Version 4.1	    02/04/26 22:03:15	    Page 1
+program.asm
+
+
+
+      1	0000			     .model tiny	; модель памяти для .COM
+      2	0000			     .code
+      3				     org 100h		; точка входа	.COM
+      4
+      5	0100			     Start:
+      6	0100  B4 09			     mov ah, 09h	      ;	функция DOS 09h — вывести строку
+      7	0102  BA 010Cr			     mov dx, offset HelloStr ; адрес строки
+      8	0105  CD 21			     int 21h
+      9
+     10	0107  B8 4C00			     mov ax, 4C00h	      ;	выход в DOS
+     11	010A  CD 21			     int 21h
+     12
+     13	010C  4D 49 43 52 4F 53	4F+  HelloStr db 'MICROSOFT IS THE BIGGEST PIECES OF DOG SHIT',	0Dh, 0Ah, '$'
+     14	      46 54 20 49 53 20	54+
+     15	      48 45 20 42 49 47	47+
+     16	      45 53 54 20 50 49	45+
+     17	      43 45 53 20 4F 46	20+
+     18	      44 4F 47 20 53 48	49+
+     19	      54 0D 0A 24
+     20
+     21				     end Start
+Turbo Assembler	 Version 4.1	    02/04/26 22:03:15	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "02/04/26"
+??FILENAME			  Text	 "program "
+??TIME				  Text	 "22:03:15"
+??VERSION			  Number 040A
+@32BIT				  Text	 0
+@CODE				  Text	 DGROUP
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 PROGRAM
+@INTERFACE			  Text	 000H
+@MODEL				  Text	 1
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+HELLOSTR			  Byte	 DGROUP:010C
+START				  Near	 DGROUP:0100
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  _DATA				  16  0000 Word	  Public  DATA
+  _TEXT				  16  013A Word	  Public  CODE
+

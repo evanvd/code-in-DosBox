@@ -1,0 +1,1 @@
+SDL_VIDEODRIVER=wayland dosbox -conf Config/DOSBox/DOSBox-0.74.conf
