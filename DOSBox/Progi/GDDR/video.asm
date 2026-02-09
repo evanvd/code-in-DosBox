@@ -7,7 +7,7 @@ Start:    mov ax, VIDEOSEG
 		  mov es, ax
 		  
 		  mov al, ds:[82h]
-		  mov ah, 4eh
+		  mov ah, 0CEh
 		  xor bx, bx
 		  mov es :[bx], ax
 		  mov ax, 4c00h

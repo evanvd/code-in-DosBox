@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 4.1	    02/09/26 21:01:12	    Page 1
+Turbo Assembler	 Version 4.1	    02/09/26 22:12:51	    Page 1
 video.asm
 
 
@@ -12,13 +12,13 @@ video.asm
       7	0103  8E C0				       mov es, ax
       8
       9	0105  A0 0082				       mov al, ds:[82h]
-     10	0108  B4 4E				       mov ah, 4eh
+     10	0108  B4 CE				       mov ah, 0CEh
      11	010A  33 DB				       xor bx, bx
      12	010C  26: 89 07				       mov es :[bx], ax
      13	010F  B8 4C00				       mov ax, 4c00h
      14	0112  CD 21				       int 21h
      15				     end Start
-Turbo Assembler	 Version 4.1	    02/09/26 21:01:12	    Page 2
+Turbo Assembler	 Version 4.1	    02/09/26 22:12:51	    Page 2
 Symbol Table
 
 
@@ -28,7 +28,7 @@ Symbol Name			  Type	 Value
 
 ??DATE				  Text	 "02/09/26"
 ??FILENAME			  Text	 "video	  "
-??TIME				  Text	 "21:01:12"
+??TIME				  Text	 "22:12:51"
 ??VERSION			  Number 040A
 @32BIT				  Text	 0
 @CODE				  Text	 DGROUP
