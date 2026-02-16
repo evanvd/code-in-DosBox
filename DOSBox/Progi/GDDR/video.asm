@@ -4,25 +4,28 @@ org 100h
 VIDEOSEG equ 0B800h
 
 Start:    
-    call F               ; Вызываем подпрограмму
-    mov ax, VIDEOSEG
-    mov es, ax
-    mov al, ds:[83h]     ; Берем второй символ аргумента
-    mov ah, 0CEh         ; Атрибут (красный фон, желтый текст)
-    mov bx, 52h           ; Смещение 2 (второе знакоместо)
-    mov es:[bx], ax
+    xor cx, cx            ; Количество символов для вывода
+    mov cx, ds:[82h]
+	mov si, 82h          ; Начало аргументов в PSP
+    mov di, 1600          ; Смещение на экране (например, вторая строка)
     
-    mov ax, 4c00h        ; Корректное завершение программы
+    call PrintChars      ; Вызываем подпрограмму
+    
+    mov ax, 4c00h        
     int 21h 
 
-F proc                   ; Оформим как процедуру
+PrintChars proc
     mov ax, VIDEOSEG
     mov es, ax
-    mov al, ds:[82h]     ; Берем первый символ аргумента
-    mov ah, 0CEh
-    mov bx, 50h           ; Смещение 0 (первое знакоместо)
-    mov es:[bx], ax
-    ret                  ; ОБЯЗАТЕЛЬНО: возврат в Start
-F endp
+    mov ah, 0CEh         ; Атрибут (желтый на красном)
+
+NextChar:
+    lodsb                ; Загружает байт из ds:[si] в AL и инкрементирует SI
+    mov es:[di], ax      ; Пишем символ и атрибут в видеопамять
+    add di, 2            ; Переходим к следующему знакоместу (2 байта)
+    loop NextChar        ; CX--, если не 0, прыгаем на NextChar
+    
+    ret                  ; Возврат в Start
+PrintChars endp
 
 end Start

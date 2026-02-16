@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 4.1	    16/02/26 16:46:44	    Page 1
+Turbo Assembler	 Version 4.1	    16/02/26 17:08:05	    Page 1
 video.asm
 
 
@@ -9,29 +9,35 @@ video.asm
       4	      =B800		     VIDEOSEG equ 0B800h
       5
       6	0100			     Start:
-      7	0100  E8 0015			 call F		      ;	Вызываем подпрограмму
-      8	0103  B8 B800			 mov ax, VIDEOSEG
-      9	0106  8E C0			 mov es, ax
-     10	0108  A0 0083			 mov al, ds:[83h]     ;	Берем второй	символ аргумента
-     11	010B  B4 CE			 mov ah, 0CEh	      ;	Атрибут (красный фон, желтый текст)
-     12	010D  BB 0052			 mov bx, 52h	       ; Смещение 2 (второе знакоместо)
-     13	0110  26: 89 07			 mov es:[bx], ax
+      7	0100  33 C9			 xor cx, cx	       ; Количество символов для вывода
+      8	0102  8B 0E 0082		 mov cx, ds:[82h]
+      9	0106  BE 0082			     mov si, 82h	  ; Начало аргументов в PSP
+     10	0109  BF 0640			 mov di, 1600	       ; Смещение на экране (например, вторая +
+     11				     строка)
+     12
+     13	010C  E8 0005			 call PrintChars      ;	Вызываем подпрограмму
      14
-     15	0113  B8 4C00			 mov ax, 4c00h	      ;	Корректное завершение программы
-     16	0116  CD 21			 int 21h
+     15	010F  B8 4C00			 mov ax, 4c00h
+     16	0112  CD 21			 int 21h
      17
-     18	0118			     F proc		      ;	Оформим как процедуру
-     19	0118  B8 B800			 mov ax, VIDEOSEG
-     20	011B  8E C0			 mov es, ax
-     21	011D  A0 0082			 mov al, ds:[82h]     ;	Берем первый	символ аргумента
-     22	0120  B4 CE			 mov ah, 0CEh
-     23	0122  BB 0050			 mov bx, 50h	       ; Смещение 0 (первое знакоместо)
-     24	0125  26: 89 07			 mov es:[bx], ax
-     25	0128  C3			 ret		      ;	ОБЯЗАТЕЛЬНО:	возврат в Start
-     26	0129			     F endp
-     27
-     28				     end Start
-Turbo Assembler	 Version 4.1	    16/02/26 16:46:44	    Page 2
+     18	0114			     PrintChars	proc
+     19	0114  B8 B800			 mov ax, VIDEOSEG
+     20	0117  8E C0			 mov es, ax
+     21	0119  B4 CE			 mov ah, 0CEh	      ;	Атрибут (желтый на красном)
+     22
+     23	011B			     NextChar:
+     24	011B  AC			 lodsb		      ;	Загружает байт из ds:[si] в AL и		    +
+     25				     инкрементирует SI
+     26	011C  26: 89 05			 mov es:[di], ax      ;	Пишем символ	и атрибут в видеопамять
+     27	011F  83 C7 02			 add di, 2	      ;	Переходим к следующему знакоместу	(2  +
+     28				     байта)
+     29	0122  E2 F7			 loop NextChar	      ;	CX--, если не 0, прыгаем на NextChar
+     30
+     31	0124  C3			 ret		      ;	Возврат в Start
+     32	0125			     PrintChars	endp
+     33
+     34				     end Start
+Turbo Assembler	 Version 4.1	    16/02/26 17:08:05	    Page 2
 Symbol Table
 
 
@@ -41,7 +47,7 @@ Symbol Name			  Type	 Value
 
 ??DATE				  Text	 "16/02/26"
 ??FILENAME			  Text	 "video	  "
-??TIME				  Text	 "16:46:44"
+??TIME				  Text	 "17:08:05"
 ??VERSION			  Number 040A
 @32BIT				  Text	 0
 @CODE				  Text	 DGROUP
@@ -55,7 +61,8 @@ Symbol Name			  Type	 Value
 @MODEL				  Text	 1
 @STACK				  Text	 DGROUP
 @WORDSIZE			  Text	 2
-F				  Near	 DGROUP:0118
+NEXTCHAR			  Near	 DGROUP:011B
+PRINTCHARS			  Near	 DGROUP:0114
 START				  Near	 DGROUP:0100
 VIDEOSEG			  Number B800
 
@@ -63,5 +70,5 @@ Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   _DATA				  16  0000 Word	  Public  DATA
-  _TEXT				  16  0129 Word	  Public  CODE
+  _TEXT				  16  0125 Word	  Public  CODE
 
