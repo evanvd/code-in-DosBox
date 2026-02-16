@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 4.1	    16/02/26 17:08:05	    Page 1
+Turbo Assembler	 Version 4.1	    16/02/26 23:28:51	    Page 1
 video.asm
 
 
@@ -7,37 +7,41 @@ video.asm
       2	0000			     .code
       3				     org 100h
       4	      =B800		     VIDEOSEG equ 0B800h
-      5
-      6	0100			     Start:
-      7	0100  33 C9			 xor cx, cx	       ; Количество символов для вывода
-      8	0102  8B 0E 0082		 mov cx, ds:[82h]
-      9	0106  BE 0082			     mov si, 82h	  ; Начало аргументов в PSP
-     10	0109  BF 0640			 mov di, 1600	       ; Смещение на экране (например, вторая +
-     11				     строка)
-     12
-     13	010C  E8 0005			 call PrintChars      ;	Вызываем подпрограмму
-     14
-     15	010F  B8 4C00			 mov ax, 4c00h
-     16	0112  CD 21			 int 21h
-     17
-     18	0114			     PrintChars	proc
-     19	0114  B8 B800			 mov ax, VIDEOSEG
-     20	0117  8E C0			 mov es, ax
-     21	0119  B4 CE			 mov ah, 0CEh	      ;	Атрибут (желтый на красном)
-     22
-     23	011B			     NextChar:
-     24	011B  AC			 lodsb		      ;	Загружает байт из ds:[si] в AL и		    +
-     25				     инкрементирует SI
-     26	011C  26: 89 05			 mov es:[di], ax      ;	Пишем символ	и атрибут в видеопамять
-     27	011F  83 C7 02			 add di, 2	      ;	Переходим к следующему знакоместу	(2  +
-     28				     байта)
-     29	0122  E2 F7			 loop NextChar	      ;	CX--, если не 0, прыгаем на NextChar
-     30
-     31	0124  C3			 ret		      ;	Возврат в Start
-     32	0125			     PrintChars	endp
-     33
-     34				     end Start
-Turbo Assembler	 Version 4.1	    16/02/26 17:08:05	    Page 2
+      5				     ;_______________________________________________________________________________________________
+      6				     _____________________________________________________
+      7	0100			     Start:
+      8	0100  33 C9			 xor cx, cx
+      9	0102  32 ED			     xor ch, ch
+     10	0104  8B 0E 0080		 mov cx, ds:[80h]
+     11	0108  BE 0080			     mov si, 80h
+     12	010B  BF 0640			 mov di, 1600
+     13
+     14	010E  E8 0005			 call PrintChars
+     15
+     16	0111  B8 4C00			 mov ax, 4c00h
+     17	0114  CD 21			 int 21h
+     18				     ;_______________________________________________________________________________________________
+     19				     _____________________________________________________
+     20	0116			     PrintChars	proc
+     21	0116  B8 B800			 mov ax, VIDEOSEG
+     22	0119  8E C0			 mov es, ax
+     23	011B  B4 CE			 mov ah, 0CEh
+     24
+     25	011D			     NextChar:
+     26	011D  AC			 lodsb		      ;	Загружает байт из ds:[si] в AL и		    +
+     27				     инкрементирует SI
+     28	011E  26: 89 05			 mov es:[di], ax      ;	Пишем символ	и атрибут в видеопамять
+     29	0121  83 C7 02			 add di, 2	      ;	Переходим к следующему знакоместу	(2  +
+     30				     байта)
+     31	0124  E2 F7			 loop NextChar	      ;	CX--, если не 0, прыгаем на NextChar
+     32
+     33	0126  C3			 ret		      ;	Возврат в Start
+     34	0127			     PrintChars	endp
+     35				     ;_______________________________________________________________________________________________
+     36				     _____________________________________________________
+     37
+     38				     end Start
+Turbo Assembler	 Version 4.1	    16/02/26 23:28:51	    Page 2
 Symbol Table
 
 
@@ -47,7 +51,7 @@ Symbol Name			  Type	 Value
 
 ??DATE				  Text	 "16/02/26"
 ??FILENAME			  Text	 "video	  "
-??TIME				  Text	 "17:08:05"
+??TIME				  Text	 "23:28:51"
 ??VERSION			  Number 040A
 @32BIT				  Text	 0
 @CODE				  Text	 DGROUP
@@ -61,8 +65,8 @@ Symbol Name			  Type	 Value
 @MODEL				  Text	 1
 @STACK				  Text	 DGROUP
 @WORDSIZE			  Text	 2
-NEXTCHAR			  Near	 DGROUP:011B
-PRINTCHARS			  Near	 DGROUP:0114
+NEXTCHAR			  Near	 DGROUP:011D
+PRINTCHARS			  Near	 DGROUP:0116
 START				  Near	 DGROUP:0100
 VIDEOSEG			  Number B800
 
@@ -70,5 +74,5 @@ Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   _DATA				  16  0000 Word	  Public  DATA
-  _TEXT				  16  0125 Word	  Public  CODE
+  _TEXT				  16  0127 Word	  Public  CODE
 
