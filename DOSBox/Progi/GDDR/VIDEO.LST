@@ -1,4 +1,4 @@
-Turbo Assembler	 Version 4.1	    02/09/26 22:12:51	    Page 1
+Turbo Assembler	 Version 4.1	    15/02/26 16:06:39	    Page 1
 video.asm
 
 
@@ -10,15 +10,14 @@ video.asm
       5
       6	0100  B8 B800		     Start:    mov ax, VIDEOSEG
       7	0103  8E C0				       mov es, ax
-      8
-      9	0105  A0 0082				       mov al, ds:[82h]
-     10	0108  B4 CE				       mov ah, 0CEh
-     11	010A  33 DB				       xor bx, bx
-     12	010C  26: 89 07				       mov es :[bx], ax
-     13	010F  B8 4C00				       mov ax, 4c00h
-     14	0112  CD 21				       int 21h
-     15				     end Start
-Turbo Assembler	 Version 4.1	    02/09/26 22:12:51	    Page 2
+      8	0105  A0 0082				       mov al, ds:[82h]
+      9	0108  B4 CE				       mov ah, 0CEh
+     10	010A  BB 0000				       mov bx, 0h
+     11	010D  26: 89 07				       mov es :[bx], ax
+     12	0110  B8 4C00				       mov ax, 4c00h
+     13	0113  CD 21				       int 21h
+     14				     end Start
+Turbo Assembler	 Version 4.1	    15/02/26 16:06:39	    Page 2
 Symbol Table
 
 
@@ -26,9 +25,9 @@ Symbol Table
 
 Symbol Name			  Type	 Value
 
-??DATE				  Text	 "02/09/26"
+??DATE				  Text	 "15/02/26"
 ??FILENAME			  Text	 "video	  "
-??TIME				  Text	 "22:12:51"
+??TIME				  Text	 "16:06:39"
 ??VERSION			  Number 040A
 @32BIT				  Text	 0
 @CODE				  Text	 DGROUP
@@ -49,5 +48,5 @@ Groups & Segments		  Bit Size Align  Combine Class
 
 DGROUP				  Group
   _DATA				  16  0000 Word	  Public  DATA
-  _TEXT				  16  0114 Word	  Public  CODE
+  _TEXT				  16  0115 Word	  Public  CODE
 
